@@ -8,7 +8,7 @@
 <!-- Demo: replace with the GIF and the video link (see docs/DEMO.md) -->
 > 🎬 **Demo video:** _coming soon_
 
-I built it for my Pokémon Emerald ROM hack, a C codebase based on [pokeemerald-expansion](https://github.com/rh-hideout/pokeemerald-expansion). It's a development and portfolio tool: the hack's public release is built with it switched off and contains none of it.
+I built it for my [Pokémon Emerald ROM hack](https://github.com/alvarollopezgarcia-cpu/pokemon-emerald-hack), a C codebase based on [pokeemerald-expansion](https://github.com/rh-hideout/pokeemerald-expansion). It's a development and portfolio tool: the hack's public release is built with it switched off and contains none of it.
 
 ---
 
