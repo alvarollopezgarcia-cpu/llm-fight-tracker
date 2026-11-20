@@ -1,0 +1,3 @@
+# The bridge, generator and tests use only the Python standard library (3.10+).
+# Needed only for the optional Claude backend (summaries and mailbox texts):
+anthropic

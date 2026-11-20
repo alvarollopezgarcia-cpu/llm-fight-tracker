@@ -1,0 +1,15 @@
+# Generated per ROM build, and the local database of recorded play
+build/
+*.sqlite
+__pycache__/
+*.pyc
+.venv/
+
+# Never commit game files: ROMs, saves, save states
+*.gba
+*.sav
+*.ss[0-9]
+*.sgm
+
+# Private publishing guide
+PUBLICAR.md
