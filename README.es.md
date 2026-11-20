@@ -1,6 +1,6 @@
 # LLM Fight Tracker
 
-[![tests](https://github.com/allogar5/llm-fight-tracker/actions/workflows/tests.yml/badge.svg)](https://github.com/allogar5/llm-fight-tracker/actions/workflows/tests.yml)
+[![tests](https://github.com/alvarollopezgarcia-cpu/llm-fight-tracker/actions/workflows/tests.yml/badge.svg)](https://github.com/alvarollopezgarcia-cpu/llm-fight-tracker/actions/workflows/tests.yml)
 &nbsp;[Read in English](README.md)
 
 **Un sistema de telemetría que observa cómo combate un jugador en un juego de Game Boy Advance, describe su estilo de juego con un LLM y devuelve esa descripción al juego mientras se ejecuta.**
