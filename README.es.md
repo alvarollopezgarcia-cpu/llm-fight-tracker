@@ -8,7 +8,7 @@
 <!-- Demo: sustituir por el GIF y el enlace al vídeo (ver docs/DEMO.md) -->
 > 🎬 **Vídeo de demostración:** _próximamente_
 
-Lo construí para mi [ROM hack de Pokémon Esmeralda](https://github.com/alvarollopezgarcia-cpu/pokemon-emerald-hack), un proyecto en C basado en [pokeemerald-expansion](https://github.com/rh-hideout/pokeemerald-expansion). Es una herramienta de desarrollo y de portfolio: la versión pública del hack se compila con ella desactivada y no la incluye.
+Lo construí para mi [ROM hack de Pokémon Esmeralda, EmeraldFF](https://github.com/alvarollopezgarcia-cpu/emeraldFF-romhack), un proyecto en C basado en [pokeemerald-expansion](https://github.com/rh-hideout/pokeemerald-expansion). Es una herramienta de desarrollo y de portfolio: la versión pública del hack se compila con ella desactivada y no la incluye.
 
 ---
 
