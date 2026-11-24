@@ -5,8 +5,9 @@
 
 **Un sistema de telemetría que aprende cómo combate un jugador en un juego de Game Boy Advance y hace que los jefes finales respondan: la IA rival se adapta a los hábitos registrados del jugador, y un LLM planifica la estrategia de toda la Liga Pokémon contra él antes de que empiece.**
 
-<!-- Demo: sustituir por el GIF y el enlace al vídeo (ver docs/DEMO.md) -->
-> 🎬 **Vídeo de demostración:** _próximamente_
+[![Vídeo de demostración](https://img.youtube.com/vi/8i62X_mBEUw/maxresdefault.jpg)](https://youtu.be/8i62X_mBEUw)
+
+> 🎬 **Vídeo de demostración:** https://youtu.be/8i62X_mBEUw
 
 Lo construí para mi [ROM hack de Pokémon Esmeralda, EmeraldFF](https://github.com/alvarollopezgarcia-cpu/emeraldFF-romhack), un proyecto en C basado en [pokeemerald-expansion](https://github.com/rh-hideout/pokeemerald-expansion). Es una herramienta de desarrollo y de portfolio: la versión pública del hack se compila con ella desactivada y no la incluye.
 

@@ -5,8 +5,9 @@
 
 **A telemetry pipeline that learns how a player fights in a Game Boy Advance game, then makes the final bosses fight back: the enemy AI adapts to the player's recorded habits, and an LLM plans the whole Pokémon League's strategy against them before it starts.**
 
-<!-- Demo: replace with the GIF and the video link (see docs/DEMO.md) -->
-> 🎬 **Demo video:** _coming soon_
+[![Demo video](https://img.youtube.com/vi/8i62X_mBEUw/maxresdefault.jpg)](https://youtu.be/8i62X_mBEUw)
+
+> 🎬 **Demo video:** https://youtu.be/8i62X_mBEUw
 
 I built it for my [Pokémon Emerald ROM hack, EmeraldFF](https://github.com/alvarollopezgarcia-cpu/emeraldFF-romhack), a C codebase based on [pokeemerald-expansion](https://github.com/rh-hideout/pokeemerald-expansion). It's a development and portfolio tool: the hack's public release is built with it switched off and contains none of it.
 
