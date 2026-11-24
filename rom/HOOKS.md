@@ -204,6 +204,142 @@ Lines 637-643:
         && GetItemEffectType(gLastUsedItem) == ITEM_EFFECT_X_ITEM
 ```
 
+## `src/battle_setup.c`
+
+Lines 2-10:
+
+```c
+#include "data.h"
+#include "main.h"
+#include "battle.h"
+#include "battle_ai_player_profile.h"
+#include "constants/battle_ai.h"
+#include "telemetry.h"
+#include "battle_frontier.h"
+#include "battle_pike.h"
+#include "battle_pyramid.h"
+```
+
+Lines 2260-2279:
+
+```c
+    Free(trainerGen);
+}
+
+// AI_FLAG_PLAYER_PROFILE trainers pick their leads: the League plan's choice if the planner wrote
+// one for this trainer, else a chance to dodge the counter a player who counters leads will bring.
+static void ChooseProfileLeads(struct Pokemon *party, u16 trainerNum)
+{
+    const struct Trainer *trainer = GetTrainerStructFromId(trainerNum);
+    bool32 doubleLeads = trainer->battleType == TRAINER_BATTLE_TYPE_DOUBLES && !(gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS);
+    u32 count = 0;
+
+    if (!(trainer->aiFlags & AI_FLAG_PLAYER_PROFILE))
+        return;
+    while (count < PARTY_SIZE && GetMonData(&party[count], MON_DATA_SPECIES) != SPECIES_NONE)
+        count++;
+    if (!ProfileAI_ApplyPlanLeads(party, count, trainer->aiFlags, doubleLeads ? 2 : 1, Mailbox_GetDirective(trainerNum)))
+        ProfileAI_ChangeLead(party, count, trainer->aiFlags, doubleLeads ? 2 : 1);
+}
+
+static void CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum)
+```
+
+Lines 2281-2287:
+
+```c
+    if (!GetTrainerStructFromId(trainerNum)->overrideTrainer)
+    {
+        CreateNPCTrainerPartyFromTrainer(party, GetTrainerStructFromId(trainerNum));
+        ChooseProfileLeads(party, trainerNum);
+        return;
+    }
+
+```
+
+Lines 2295-2301:
+
+```c
+    if (tempTrainer.partySize == 0)
+        tempTrainer.partySize = origTrainer->partySize;
+    CreateNPCTrainerPartyFromTrainer(party, (const struct Trainer *)(&tempTrainer));
+    ChooseProfileLeads(party, trainerNum);
+}
+
+void CreateTrainerPartyForPlayer(void)
+```
+
+## `src/battle_ai_main.c`
+
+Lines 7-13:
+
+```c
+#include "battle_ai_items.h"
+#include "battle_ai_switch.h"
+#include "battle_ai_main.h"
+#include "battle_ai_player_profile.h"
+#include "battle_ai_record.h"
+#include "battle_stat_change.h"
+#include "battle_controllers.h"
+```
+
+Lines 121-127:
+
+```c
+    [34] = NULL,                     // AI_FLAG_ABILITY_OMNISCIENCE
+    [35] = NULL,                     // AI_FLAG_ITEM_OMNISCIENCE
+    [36] = NULL,                     // AI_FLAG_MOVE_OMNISCIENCE
+    [37] = AI_PlayerProfile,         // AI_FLAG_PLAYER_PROFILE
+    [38] = NULL,                     // Unused
+    [39] = NULL,                     // Unused
+    [40] = NULL,                     // Unused
+```
+
+Lines 416-422:
+
+```c
+
+    // Determine whether AI will use predictions this turn
+
+    u32 predictSwitchChance = (gAiThinkingStruct->aiFlags[battler] & AI_FLAG_PLAYER_PROFILE) ? GetBattlerPredictSwitchChance(battler) : PREDICT_SWITCH_CHANCE;
+    gAiLogicData->predictingSwitch = (gAiThinkingStruct->aiFlags[battler] & AI_FLAG_PREDICT_SWITCH) ? RandomPercentage(RNG_AI_PREDICT_SWITCH, predictSwitchChance) : FALSE;
+    gAiLogicData->predictingMove = (gAiThinkingStruct->aiFlags[battler] & AI_FLAG_PREDICT_MOVE) ? RandomPercentage(RNG_AI_PREDICT_MOVE, PREDICT_MOVE_CHANCE) : FALSE;
+
+```
+
+## `include/constants/battle_ai.h`
+
+Lines 44-50:
+
+```c
+#define AI_FLAG_ABILITY_OMNISCIENCE         AI_FLAG(34)  // AI knows the player's ability
+#define AI_FLAG_ITEM_OMNISCIENCE            AI_FLAG(35)  // AI knows the player's item
+#define AI_FLAG_MOVE_OMNISCIENCE            AI_FLAG(36)  // AI knows the player's moves
+#define AI_FLAG_PLAYER_PROFILE              AI_FLAG(37)  // AI adapts to the player's habits recorded over the game (src/player_profile.c). Only uses what the AI already knows about the player's moves.
+
+// The following options are enough to have a basic/smart trainer. Any other addtion could make the trainer worse/better depending on the flag
+#define AI_FLAG_BASIC_TRAINER         (AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_TRY_TO_FAINT | AI_FLAG_CHECK_VIABILITY)
+```
+
+## `include/config/ai.h`
+
+Lines 108-119:
+
+```c
+#define PREDICT_SWITCH_CHANCE                                   50
+#define PREDICT_MOVE_CHANCE                                     100
+
+// AI_FLAG_PLAYER_PROFILE settings: the AI reacts to habits the game recorded about the player (src/player_profile.c)
+#define PROFILE_AI_MIN_SAMPLES                                  12 // A habit is ignored until the player had this many chances to show it.
+#define PROFILE_AI_BIAS_THRESHOLD                               30 // Bias (-100..100, 0 = 50% of the time) a habit needs before a rule reacts to it.
+#define PROFILE_AI_SWITCH_CHANCE_MIN                            10 // With Predict Switch, the chance to predict a switch follows how often the player
+#define PROFILE_AI_SWITCH_CHANCE_MAX                            90 // switches when threatened, kept within these bounds.
+#define PROFILE_AI_LEAD_CHANCE_MAX                              75 // Most often a trainer leads with something other than its documented lead
+                                                                   // when the player keeps countering it (the chance follows how often they do).
+
+// AI Terastalization chances
+```
+
 ## `src/overworld.c`
 
 Lines 1-6:

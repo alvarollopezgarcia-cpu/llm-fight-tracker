@@ -1,0 +1,24 @@
+# League plan #1 made by Claude (claude-opus-5-5) on entering EverGrandeCity_PokemonLeague_1F, 2026-11-24.
+# Input: a test "perfect player" profile written into the save. Output of `python3 -m bridge.planner --show`.
+
+TRAINER_SIDNEY       leads [2, 4]  switch prediction 70%  focus FASTEST  aggression +1  self setup +0
+                     punish PROTECT_REPEAT, PROTECT_SCOUT, SETUP, SPREAD
+                     Abre con Kleavor y Genesect porque el jugador suele preparar respuesta al líder documentado y cambia ante amenazas supereficaces.
+TRAINER_PHOEBE       leads [2, 4]  switch prediction 70%  focus FASTEST  aggression +1  self setup +0
+                     punish HEALING, PROTECT_REPEAT, PROTECT_SCOUT, SPREAD
+                     Braviary y Articuno-Galar sorprenden a un jugador que contrarresta el líder documentado y abre con Protect en dobles.
+TRAINER_GLACIA       leads [3, 4]  switch prediction 70%  focus FASTEST  aggression +2  self setup +0
+                     punish PRIORITY, PROTECT_REPEAT, PROTECT_SCOUT, SPREAD
+                     Zoroark y Typhlosion con Choice Scarf golpean fuerte desde el inicio contra una apertura pensada para Lycanroc.
+TRAINER_DRAKE        leads [2, 3]  switch prediction 70%  focus FASTEST  aggression +1  self setup +0
+                     punish FOCUS, PROTECT_REPEAT, PROTECT_SCOUT, SPREAD
+                     Zoroark-Hisui y Koraidon descolocan una apertura preparada contra Salamence, y Protect sirve para responder al juego en dobles del jugador.
+TRAINER_WALLACE      leads [3, 4]  switch prediction 70%  focus FASTEST  aggression +1  self setup -1
+                     punish PROTECT_REPEAT, PROTECT_SCOUT, SETUP, SPREAD
+                     Mamoswine y Meloetta abren de forma inesperada frente a un jugador que se prepara contra Kyogre.
+TRAINER_LLOPEZ_DUO   leads [1]  switch prediction 70%  focus NONE  aggression +2  self setup +0
+                     punish PRIORITY, SETUP
+                     Meloetta-Pirouette sale primero para evitar la respuesta que el jugador tenga preparada contra Kyogre.
+TRAINER_CANETE_DUO   leads [1]  switch prediction 70%  focus NONE  aggression +2  self setup +1
+                     punish PRIORITY, SETUP
+                     Baxcalibur abre en lugar de Hoopa para romper la respuesta preparada del jugador y amenazar con Dragon Dance.

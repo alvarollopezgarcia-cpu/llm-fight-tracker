@@ -146,6 +146,21 @@ s32 GetPlayerProfileBias(enum PlayerProfileStat stat, u32 minSamples)
     return (counter->hits * 200) / counter->chances - 100;
 }
 
+// Combined hit rate (0..100) of several habits, or UINT32_MAX until they add up to minSamples chances.
+u32 GetPlayerProfileRate(const enum PlayerProfileStat *stats, u32 count, u32 minSamples)
+{
+    u32 hits = 0, chances = 0;
+
+    for (u32 i = 0; i < count; i++)
+    {
+        hits += GetPlayerProfile()->stats[stats[i]].hits;
+        chances += GetPlayerProfile()->stats[stats[i]].chances;
+    }
+    if (chances == 0 || chances < minSamples)
+        return UINT32_MAX;
+    return hits * 100 / chances;
+}
+
 // ---------------------------------------------------------------------------
 // Small helpers
 // ---------------------------------------------------------------------------
@@ -558,6 +573,31 @@ static bool32 IsProfileSpreadMove(enum Move move)
 {
     enum MoveTarget target = GetMoveTarget(move);
     return target == TARGET_BOTH || target == TARGET_FOES_AND_ALLY;
+}
+
+bool32 Profile_IsSetupMove(enum Move move)
+{
+    return IsSetupMove(move);
+}
+
+bool32 Profile_IsProtectMove(enum Move move)
+{
+    return IsProtectMove(move);
+}
+
+bool32 Profile_IsSelfHealingMove(enum Move move)
+{
+    return IsSelfHealingMove(move);
+}
+
+bool32 Profile_IsStatusMove(enum Move move)
+{
+    return IsStatusMove(move);
+}
+
+bool32 Profile_IsSpreadMove(enum Move move)
+{
+    return IsProfileSpreadMove(move);
 }
 
 static bool32 KnowsMove(enum BattlerId battler, bool32 (*predicate)(enum Move))

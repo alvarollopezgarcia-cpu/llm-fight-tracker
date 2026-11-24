@@ -1,0 +1,409 @@
+// Trimmed from src/data/trainers.party: the League trainers only.
+
+=== TRAINER_SIDNEY ===
+Name: MINGO
+Class: Elite Four
+Pic: Elite Four Mingo
+Gender: Male
+Music: Elite Four
+Battle Type: Doubles
+AI: Check Bad Move / Try To Faint / Check Viability / Try To 2HKO / Force Setup First Turn / Double Battle / Predict Switch / Predict Incoming Mon / Player Profile
+Mugshot: Purple
+
+Vikavolt @ Sitrus Berry  
+Ability: Levitate  
+Level: 100
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Discharge  
+- Bug Buzz  
+- Sticky Web  
+- Roost  
+
+Flygon @ Throat Spray  
+Ability: Dragonize  
+Level: 100
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Scorching Sands  
+- Hyper Voice  
+- Alluring Voice  
+- Heat Wave  
+
+Kleavor @ Focus Sash  
+Ability: Sharpness  
+Level: 100
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- X-Scissor  
+- Stone Axe  
+- Psycho Cut  
+- Stone Edge  
+
+Beedrill @ Beedrillite  
+Ability: Sniper  
+Level: 100
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Drill Run  
+- X-Scissor  
+- Fell Stinger  
+- Poison Jab  
+
+Genesect-Douse @ Douse Drive  
+Ability: Download  
+Level: 100
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Techno Blast  
+- Bug Buzz  
+- Shift Gear  
+- Iron Head  
+
+Volcarona @ Charti Berry  
+Ability: Flame Body  
+Level: 100
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Quiver Dance  
+- Heat Wave  
+- Giga Drain  
+- Bug Buzz  
+
+
+=== TRAINER_PHOEBE ===
+Name: LUCIA
+Class: Elite Four
+Pic: Elite Four Lucia
+Gender: Female
+Music: Elite Four
+Battle Type: Doubles
+AI: Check Bad Move / Try To Faint / Check Viability / Try To 2HKO / Force Setup First Turn / Double Battle / Predict Switch / Predict Incoming Mon / Player Profile
+Mugshot: Green
+
+Mandibuzz (F) @ Sitrus Berry  
+Ability: Overcoat  
+Level: 100
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Brave Bird  
+- Knock Off  
+- Foul Play  
+- Tailwind  
+
+Corviknight @ Assault Vest  
+Ability: Mirror Armor  
+Level: 100
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Brave Bird  
+- Iron Head  
+- U-turn  
+- Body Press  
+
+Braviary (M) @ Life Orb  
+Ability: Sheer Force 
+Level: 100
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe 
+- Brave Bird  
+- Return  
+- Close Combat  
+- Zen Headbutt  
+
+Talonflame @ Heavy-Duty Boots  
+Ability: Gale Wings  
+Level: 100
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Brave Bird  
+- Overheat  
+- Roost  
+- Defog  
+
+Articuno-Galar @ Choice Specs  
+Ability: Competitive  
+Level: 100
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Hurricane  
+- Future Sight  
+- Freezing Glare  
+- Shadow Ball  
+
+Lugia @ Leftovers  
+Ability: Pressure  
+Level: 100
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Aeroblast  
+- Toxic  
+- Roost  
+- Psychic Noise  
+
+=== TRAINER_GLACIA ===
+Name: KIRAN
+Class: Elite Four
+Pic: Elite Four Glacia
+Gender: Male
+Music: Elite Four
+Battle Type: Doubles
+AI: Check Bad Move / Try To Faint / Check Viability / Try To 2HKO / Force Setup First Turn / Double Battle / Predict Switch / Predict Incoming Mon / Player Profile
+Mugshot: Pink
+
+Lycanroc-Midnight @ Chople Berry  
+Ability: No Guard  
+Level: 100
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Stone Edge  
+- Sucker Punch  
+- Iron Tail  
+- Stealth Rock  
+
+Darkrai @ Life Orb  
+Ability: Bad Dreams  
+Level: 100
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Dark Void  
+- Dark Pulse  
+- Psyshock  
+- Sludge Bomb  
+
+Absol-Mega-Z @ Absolite Z  
+Ability: Sharpness  
+Level: 100
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Psycho Cut  
+- Shadow Claw  
+- Night Slash  
+- X-Scissor  
+
+Zoroark @ Focus Sash  
+Ability: Illusion  
+Level: 100
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Dark Pulse  
+- Sludge Bomb  
+- Flamethrower  
+- Focus Blast  
+
+Typhlosion-Hisui @ Choice Scarf  
+Ability: Blaze  
+Level: 100
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe 
+- Eruption  
+- Infernal Parade  
+- Heat Wave  
+- Extrasensory  
+
+Incineroar @ Leftovers  
+Ability: Intimidate  
+Level: 100
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Fake Out  
+- Parting Shot  
+- Flare Blitz  
+- Knock Off  
+
+
+=== TRAINER_DRAKE ===
+Name: ALVARO
+Class: Elite Four
+Pic: Elite Four Drake
+Gender: Male
+Music: Elite Four
+Battle Type: Doubles
+AI: Check Bad Move / Try To Faint / Check Viability / Try To 2HKO / Force Setup First Turn / Double Battle / Predict Switch / Predict Incoming Mon / Player Profile
+Mugshot: Blue
+
+Salamence @ Salamencite  
+Ability: Intimidate  
+Level: 100
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Serious Nature  
+- Double-Edge  
+- Hyper Voice  
+- Tailwind  
+- Protect  
+
+Garchomp @ Choice Scarf  
+Ability: Rough Skin  
+Level: 100
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Bashful Nature  
+- Earthquake  
+- Rock Slide  
+- Dragon Claw  
+- Poison Jab  
+
+Zoroark-Hisui @ Focus Sash  
+Ability: Illusion  
+Level: 100
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Docile Nature  
+- Bitter Malice  
+- Hyper Voice  
+- Protect  
+- Icy Wind  
+
+Koraidon @ Life Orb  
+Ability: Orichalcum Pulse  
+Level: 100
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Serious Nature  
+- Close Combat  
+- Dragon Claw  
+- Flare Blitz  
+- Protect  
+
+Archaludon @ Power Herb  
+Ability: Stamina   
+Level: 100
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe 
+- Electro Shot  
+- Dragon Pulse  
+- Flash Cannon  
+- Body Press  
+
+Hydreigon @ Scope Lens  
+Ability: Levitate  
+Level: 100
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Focus Energy  
+- Dark Pulse  
+- Draco Meteor  
+- Protect  
+
+
+=== TRAINER_WALLACE ===
+Name: LLOPEZ
+Class: Champion
+Pic: Champion Wallace
+Gender: Male
+Music: Male
+Items: Full Restore / Full Restore
+Battle Type: Doubles
+AI: Check Bad Move / Try To Faint / Check Viability / Try To 2HKO / Force Setup First Turn / Double Battle / Predict Switch / Predict Incoming Mon / Player Profile
+Mugshot: Yellow
+
+Kyogre-Primal @ Blue Orb  
+Ability: Primordial Sea 
+Level: 100 
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Origin Pulse  
+- Ice Beam  
+- Thunder  
+- Rest  
+
+Suicune @ Leftovers  
+Ability: Pressure  
+Level: 100
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Scald  
+- Snarl  
+- Tailwind  
+- Calm Mind  
+
+Mawile @ Mawilite  
+Ability: Intimidate  
+Level: 100
+Shiny: Yes  
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Play Rough  
+- Iron Head  
+- Sucker Punch  
+- Swords Dance  
+
+Mamoswine @ Focus Sash  
+Ability: Thick Fat  
+Level: 100
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Ice Shard  
+- High Horsepower  
+- Icicle Crash  
+- Rock Slide  
+
+Meloetta @ Throat Spray  
+Ability: Serene Grace  
+Level: 100
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Hyper Voice  
+- Alluring Voice  
+- Thunder  
+- Psyshock  
+
+Annihilape @ Chesto Berry  
+Ability: Inner Focus  
+Level: 100
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Rage Fist  
+- Drain Punch  
+- Bulk Up  
+- Rest  
+
+
+=== TRAINER_LLOPEZ_DUO ===
+Name: LLOPEZ
+Class: Champion
+Pic: Champion Wallace
+Gender: Male
+Music: Male
+Items: Full Restore / Full Restore
+Battle Type: Singles
+Multi Party: Half
+AI: Check Bad Move / Try To Faint / Check Viability / Try To 2HKO / Force Setup First Turn / Double Battle / Predict Switch / Predict Incoming Mon / Player Profile
+
+Kyogre @ Blue Orb
+Ability: Drizzle
+Level: 100
+IVs: 31 HP / 0 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Origin Pulse
+- Thunder
+- Icy Wind
+- Rest
+
+Meloetta-Pirouette @ Life Orb
+Ability: Serene Grace
+Level: 100
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Close Combat
+- Return
+- Play Rough
+- Swords Dance
+
+Mawile @ Mawilite
+Ability: Intimidate
+Level: 100
+Shiny: Yes
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Play Rough
+- Iron Head
+- Sucker Punch
+- Swords Dance
+
+=== TRAINER_CANETE_DUO ===
+Name: CANETE
+Class: Leader
+Pic: Leader Norman
+Gender: Male
+Music: Male
+Items: Full Restore / Full Restore
+Battle Type: Singles
+Multi Party: Half
+AI: Check Bad Move / Try To Faint / Check Viability / Try To 2HKO / Force Setup First Turn / Double Battle / Predict Switch / Predict Incoming Mon / Player Profile
+
+Hoopa-Unbound @ Assault Vest
+Ability: Magician
+Level: 100
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Hyperspace Fury
+- Psychic
+- Fire Punch
+- Drain Punch
+
+Baxcalibur @ Baxcalibrite
+Ability: Thermal Exchange
+Level: 100
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Glaive Rush
+- Dragon Dance
+- Icicle Crash
+- Ice Shard
+
+Rampardos @ Choice Scarf
+Ability: Sheer Force
+Level: 100
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Head Smash
+- Rock Slide
+- Iron Head
+- Supercell Slam
+

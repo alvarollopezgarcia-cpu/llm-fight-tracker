@@ -60,7 +60,22 @@ CREATE TABLE IF NOT EXISTS mailbox (
     input_tokens    INTEGER,
     output_tokens   INTEGER
 );
+CREATE TABLE IF NOT EXISTS plans (
+    id              INTEGER PRIMARY KEY,
+    created_at      REAL NOT NULL,
+    backend         TEXT NOT NULL,          -- 'rules', 'claude' or 'rules-fallback'
+    model           TEXT,
+    plan            TEXT NOT NULL,          -- validated trainer entries (JSON)
+    explanation     TEXT NOT NULL,
+    notes           TEXT,
+    facts           TEXT NOT NULL,          -- the exact input the planner saw
+    input_tokens    INTEGER,
+    output_tokens   INTEGER
+);
 """
+
+# Columns added after the first release of a table: (table, column, type)
+MIGRATIONS = [("battles", "plan_id", "INTEGER REFERENCES plans(id)")]
 
 
 class Store:
@@ -70,6 +85,11 @@ class Store:
         self.db = sqlite3.connect(path)
         self.db.row_factory = sqlite3.Row
         self.db.executescript(SCHEMA)
+        for table, column, kind in MIGRATIONS:
+            columns = {row["name"] for row in self.db.execute(f"PRAGMA table_info({table})")}
+            if column not in columns:
+                self.db.execute(f"ALTER TABLE {table} ADD COLUMN {column} {kind}")
+        self.db.commit()
 
     def close(self):
         self.db.close()
@@ -159,6 +179,32 @@ class Store:
 
     def latest_mailbox(self):
         return self.db.execute("SELECT * FROM mailbox ORDER BY id DESC LIMIT 1").fetchone()
+
+    def add_plan(self, plan, facts):
+        cursor = self.db.execute(
+            "INSERT INTO plans (created_at, backend, model, plan, explanation, notes, facts, input_tokens, output_tokens)"
+            " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            (time.time(), plan.backend, plan.model, json.dumps(plan.trainers), plan.explanation,
+             json.dumps(plan.notes), json.dumps(facts), plan.input_tokens, plan.output_tokens),
+        )
+        self.db.commit()
+        return cursor.lastrowid
+
+    def latest_plan(self):
+        return self.db.execute("SELECT * FROM plans ORDER BY id DESC LIMIT 1").fetchone()
+
+    def plans(self):
+        return self.db.execute("SELECT * FROM plans ORDER BY id").fetchall()
+
+    def link_battle_plan(self, session_id, start_seq, plan_id):
+        """Mark the battle that started at this event as fought under a plan."""
+        self.db.execute("UPDATE battles SET plan_id = ? WHERE session_id = ? AND start_seq = ?",
+                        (plan_id, session_id, start_seq))
+        self.db.commit()
+
+    def plan_battles(self, plan_id):
+        return self.db.execute("SELECT * FROM battles WHERE plan_id = ? AND end_seq IS NOT NULL ORDER BY session_id, start_seq",
+                               (plan_id,)).fetchall()
 
     def event_counts(self):
         return self.db.execute("SELECT type, COUNT(*) AS n FROM events GROUP BY type ORDER BY n DESC").fetchall()

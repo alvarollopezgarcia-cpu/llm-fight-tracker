@@ -17,7 +17,7 @@ EWRAM_DATA struct TelemetryBuffer gTelemetry = {0};
 EWRAM_DATA struct Mailbox gMailbox = {0};
 
 STATIC_ASSERT(sizeof(struct TelemetryEvent) == 8, TelemetryEventSize);
-STATIC_ASSERT(sizeof(struct Mailbox) == 4 + MAILBOX_REPORT_SIZE + MAILBOX_LINE_SIZE, MailboxLayout);
+STATIC_ASSERT(sizeof(struct Mailbox) == 4 + MAILBOX_REPORT_SIZE + MAILBOX_LINE_SIZE + sizeof(struct AiDirective), MailboxLayout);
 STATIC_ASSERT(MAILBOX_REPORT_SIZE <= sizeof(gStringVar4), MailboxReportFitsStringVar4);
 STATIC_ASSERT(MAILBOX_LINE_SIZE <= sizeof(gStringVar4), MailboxLineFitsStringVar4);
 
@@ -192,3 +192,52 @@ void Mailbox_LoadChampionLine(void)
 }
 
 #endif // TELEMETRY_ENABLED
+
+// ---------------------------------------------------------------------------
+// League plan (AI directive)
+// ---------------------------------------------------------------------------
+//
+// Written by the tracker into gMailbox.directive. Test builds have no telemetry, so they keep a
+// copy of their own that tests fill with Mailbox_SetDirective.
+
+STATIC_ASSERT(sizeof(struct AiTrainerDirective) == 12, AiTrainerDirectiveSize);
+STATIC_ASSERT(sizeof(struct AiDirective) == 8 + 12 * AI_DIRECTIVE_MAX_TRAINERS, AiDirectiveSize);
+
+#if TELEMETRY_ENABLED
+#define sDirective (gMailbox.directive)
+static bool32 IsDirectiveWritten(void)
+{
+    return gMailbox.magic == MAILBOX_MAGIC && gMailbox.directive.magic == AI_DIRECTIVE_MAGIC;
+}
+#elif TESTING
+EWRAM_DATA static struct AiDirective sTestDirective = {0};
+#define sDirective sTestDirective
+static bool32 IsDirectiveWritten(void)
+{
+    return sTestDirective.magic == AI_DIRECTIVE_MAGIC;
+}
+#endif
+
+const struct AiTrainerDirective *Mailbox_GetDirective(u16 trainerId)
+{
+#if TELEMETRY_ENABLED || TESTING
+    if (trainerId == 0 || !IsDirectiveWritten())
+        return NULL;
+    for (u32 i = 0; i < sDirective.count && i < AI_DIRECTIVE_MAX_TRAINERS; i++)
+    {
+        if (sDirective.trainers[i].trainerId == trainerId)
+            return &sDirective.trainers[i];
+    }
+#endif
+    return NULL;
+}
+
+void Mailbox_SetDirective(const struct AiDirective *directive)
+{
+#if TELEMETRY_ENABLED
+    gMailbox.directive = *directive;
+    gMailbox.magic = MAILBOX_MAGIC;
+#elif TESTING
+    sTestDirective = *directive;
+#endif
+}

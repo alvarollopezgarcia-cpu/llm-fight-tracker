@@ -181,16 +181,90 @@ def telemetry_layout(header_text):
     }
 
 
+DIRECTIVE_ENTRY_SIZE = 12  # struct AiTrainerDirective (a STATIC_ASSERT in src/telemetry.c keeps it so)
+
+
 def mailbox_layout(header_text):
-    """Layout of struct Mailbox, mirroring include/telemetry.h: u32 magic, then the two texts."""
+    """Layout of struct Mailbox, mirroring include/telemetry.h: u32 magic, two texts, the League plan."""
     report_size = parse_define(header_text, "MAILBOX_REPORT_SIZE")
+    line_size = parse_define(header_text, "MAILBOX_LINE_SIZE")
+    max_trainers = parse_define(header_text, "AI_DIRECTIVE_MAX_TRAINERS")
     return {
         "magic": parse_define(header_text, "MAILBOX_MAGIC"),
         "report_offset": 4,
         "report_size": report_size,
         "line_offset": 4 + report_size,
-        "line_size": parse_define(header_text, "MAILBOX_LINE_SIZE"),
+        "line_size": line_size,
+        "directive_offset": 4 + report_size + line_size,
+        "directive_size": 8 + DIRECTIVE_ENTRY_SIZE * max_trainers,
+        "directive": {
+            "magic": parse_define(header_text, "AI_DIRECTIVE_MAGIC"),
+            "max_trainers": max_trainers,
+            "entry_size": DIRECTIVE_ENTRY_SIZE,
+            "keep": parse_define(header_text, "AI_DIRECTIVE_KEEP"),
+            "weight_max": parse_define(header_text, "AI_DIRECTIVE_WEIGHT_MAX"),
+            "punish": {name.removeprefix("DIRECTIVE_PUNISH_"): value
+                       for value, name in parse_defines(header_text, "DIRECTIVE_PUNISH_").items()},
+            "focus": [name.removeprefix("DIRECTIVE_FOCUS_") for name in parse_enum(header_text, "DirectiveFocusTarget")],
+        },
     }
+
+
+# Trainers the League plan covers: the Elite Four, the Champion and the post-Champion duo
+LEAGUE_TRAINERS = ["TRAINER_SIDNEY", "TRAINER_PHOEBE", "TRAINER_GLACIA", "TRAINER_DRAKE", "TRAINER_WALLACE",
+                   "TRAINER_LLOPEZ_DUO", "TRAINER_CANETE_DUO"]
+
+
+def parse_trainer_blocks(party_text, wanted):
+    """The documented teams of the wanted trainers from src/data/trainers.party (Showdown-like format)."""
+    trainers, current = {}, None
+    for raw in party_text.splitlines():
+        line = raw.strip()
+        header = re.fullmatch(r"=== (\w+) ===", line)
+        if header:
+            current = trainers[header.group(1)] = {"trainer": header.group(1), "party": []} if header.group(1) in wanted else None
+            continue
+        if current is None or not line:
+            continue
+        if line.startswith("- "):                       # a move of the last mon
+            if current["party"]:
+                current["party"][-1]["moves"].append(line[2:].strip())
+        elif line.endswith(" Nature"):                  # "Serious Nature": a mon attribute without a colon
+            continue
+        elif ":" in line:                               # "Key: value": trainer or mon attribute
+            key, _, value = line.partition(":")
+            if current["party"] and key == "Ability":
+                current["party"][-1]["ability"] = value.strip()
+            elif not current["party"] and key in ("Name", "Battle Type", "AI"):
+                current[key.lower().replace(" ", "_")] = value.strip()
+        else:                                           # "Species @ Item", "Nickname (Species) @ Item", "Species (F)"
+            name, _, item = line.partition(" @ ")
+            name = re.sub(r"\s*\((M|F)\)$", "", name.strip())
+            nickname = re.fullmatch(r".+\(([^()]+)\)", name)
+            current["party"].append({"slot": len(current["party"]), "species": nickname.group(1) if nickname else name,
+                                     "item": item.strip() or None, "ability": None, "moves": []})
+    return trainers
+
+
+def league_teams(party_text, trainer_ids):
+    """game_data["league"]: each League trainer's id, name, lead count and documented team."""
+    blocks = parse_trainer_blocks(party_text, set(LEAGUE_TRAINERS))
+    teams = []
+    for name in LEAGUE_TRAINERS:
+        if name not in blocks:
+            continue
+        block = blocks[name]
+        ai = block.get("ai", "")
+        aces = 2 if "Double Ace Pokemon" in ai else 1 if "Ace Pokemon" in ai else 0
+        teams.append({
+            "trainer": name,
+            "id": trainer_ids.get(name),
+            "name": block.get("name", name),
+            "leads": 2 if block.get("battle_type") == "Doubles" else 1,  # the duo are two single trainers
+            "ace_slots": aces,
+            "party": block["party"],
+        })
+    return teams
 
 
 CHARMAP_LINE = re.compile(r"^'(\\.|[^\\])'\s*=\s*((?:[0-9A-Fa-f]{2}\s*)+)")
@@ -241,6 +315,8 @@ def render_lua(template, symbols, layout, telemetry, mailbox, build_id):
         "MAILBOX_REPORT_SIZE": str(mailbox["report_size"]),
         "MAILBOX_LINE_OFFSET": str(mailbox["line_offset"]),
         "MAILBOX_LINE_SIZE": str(mailbox["line_size"]),
+        "MAILBOX_DIRECTIVE_OFFSET": str(mailbox["directive_offset"]),
+        "MAILBOX_DIRECTIVE_SIZE": str(mailbox["directive_size"]),
         "BUILD_ID": build_id,
     })
     output = template
@@ -274,6 +350,8 @@ def main():
     mailbox = mailbox_layout(telemetry_header)
     build_id = hashlib.sha1(json.dumps(symbols, sort_keys=True).encode()).hexdigest()[:10]
 
+    trainer_ids = parse_defines(read("include/constants/opponents.h"), "TRAINER_")
+
     def names(path, enum_name, prefix):
         return {str(v): n.removeprefix(prefix) for v, n in parse_enum_values(read(path), enum_name, prefix).items()}
 
@@ -287,7 +365,8 @@ def main():
         "battle_type_flags": {str(v): n for v, n in parse_defines(battle_header, "BATTLE_TYPE_").items() if v & (v - 1) == 0},
         "battle_outcomes": {str(v): n for v, n in parse_defines(battle_header, "B_OUTCOME_").items()},
         "battle_actions": names("include/battle.h", "BattleAction", "B_ACTION_"),
-        "trainers": {str(v): n for v, n in parse_defines(read("include/constants/opponents.h"), "TRAINER_").items()},
+        "trainers": {str(v): n for v, n in trainer_ids.items()},
+        "league": league_teams(read("src/data/trainers.party"), {n: v for v, n in trainer_ids.items()}),
         "maps": map_names(json.loads(read("data/maps/map_groups.json"))),
         "moves": names("include/constants/moves.h", "Move", "MOVE_"),
         "species": names("include/constants/species.h", "Species", "SPECIES_"),

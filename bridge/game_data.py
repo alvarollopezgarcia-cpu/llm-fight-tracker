@@ -20,6 +20,7 @@ class GameData:
         self.telemetry = data.get("telemetry")
         # Mailbox: layout, text encoding and font widths
         self.mailbox = data.get("mailbox")
+        self.league = data.get("league", [])  # documented League teams, in order
         self.charmap = data.get("charmap", {})
         self.glyph_widths = data.get("glyph_widths", [])
         self._names = {table: {int(value): name for value, name in data.get(table, {}).items()}

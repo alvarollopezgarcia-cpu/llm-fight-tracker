@@ -127,5 +127,13 @@ void PlayerProfile_CommitBattle(void);
 struct PlayerBattleProfile *GetPlayerProfile(void);
 void ResetPlayerProfile(void);
 s32 GetPlayerProfileBias(enum PlayerProfileStat stat, u32 minSamples);
+u32 GetPlayerProfileRate(const enum PlayerProfileStat *stats, u32 count, u32 minSamples);
+
+// Move classes the recorder uses, shared with the profile AI so both judge moves the same way
+bool32 Profile_IsSetupMove(enum Move move);
+bool32 Profile_IsProtectMove(enum Move move);
+bool32 Profile_IsSelfHealingMove(enum Move move);
+bool32 Profile_IsStatusMove(enum Move move);
+bool32 Profile_IsSpreadMove(enum Move move);
 
 #endif // GUARD_PLAYER_PROFILE_H

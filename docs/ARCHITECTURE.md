@@ -71,6 +71,17 @@ The other direction. With telemetry on, the ROM also has `gMailbox`: a magic num
 - **Delivery.** The server sends `MAILBOX <slot> <hex>` lines over the same TCP connection: on connect, after each battle, and within 2 s of `python3 -m bridge.mailbox` storing new texts. The Lua script reads them with `socket:hasdata()`/`receive()` (never blocking), writes the bytes, then the magic, and rewrites them if a reset or save state wipes or rolls them back.
 - **Who writes.** After every battle the server rewrites the mailbox with `rules` (free), unless the newest texts came from Claude: those were paid for on purpose and stay until the next manual write.
 
+### The League plan: the LLM as a planner
+
+The LLM doesn't play turns (too slow; the game can't wait). It plans, once, when the player walks into `EverGrandeCity_PokemonLeague_1F`, so the plan is in RAM before the first Elite Four battle.
+
+1. **Input** (`planner.planner_facts`): the player's profile and battle history from SQLite, plus each League trainer's documented team, parsed from `src/data/trainers.party` by the generator.
+2. **Output**: per trainer, bounded values only, as JSON (structured output): `lead_slots`, `switch_prediction` 0-100, `punish` (which habits to answer), `focus_target`, `aggression` and `self_setup` (-3..3), a reason; plus a Spanish explanation.
+3. **Validation**: every value is range-checked in Python (slots inside the party, distinct, never the ace; known rules; weights in range). Anything wrong, or an API failure, and the `rules` plan is used instead.
+4. **Delivery**: a third mailbox slot, `MAILBOX directive <hex>`: the 104-byte `struct AiDirective`. The PokéNav INFORME shows the explanation.
+5. **In the ROM**: the profile AI reads the plan for the trainer it's playing (`Mailbox_GetDirective`) and turns it into score weights and a lead order. Without a plan (no bridge, release build) the profile rules run alone.
+6. **Measurement**: League battles are linked to their plan (`battles.plan_id`); `--results` lists them and totals player wins/losses for rules plans vs Claude plans.
+
 ### Summaries
 
 `facts.py` turns the database into one JSON document; a summarizer turns it into text. Both backends read the same facts, so their output can be compared:
@@ -119,6 +130,14 @@ Requires mGBA 0.10+ (Windows) and Python 3 in WSL Ubuntu (standard library only)
    python3 -m bridge.mailbox --backend claude       # let Claude write them (Spanish)
    ```
 
+8. League plan: made by the server when the player enters the League (`--planner rules|claude|none`, default `rules`). By hand:
+   ```bash
+   python3 -m bridge.server --planner claude       # Claude plans on League entry (one call per attempt)
+   python3 -m bridge.planner --show                # the newest plan
+   python3 -m bridge.planner --backend claude      # make one now; a running bridge sends it
+   python3 -m bridge.planner --results             # League results per plan: rules vs Claude
+   ```
+
 Tests: `python3 -m unittest discover tests` (the Claude backend is tested with a fake client, so no key or network is needed)
 
 ## Roadmap
@@ -127,3 +146,4 @@ Tests: `python3 -m unittest discover tests` (the Claude backend is tested with a
 2. **Summaries:** interchangeable backends turn the stats into a play-style description: `rules` and `claude` (done).
 3. **Phase 2:** an in-ROM telemetry ring buffer for events polling can't see (moves, switches, faints, items, Rare Candy, level cap) (done).
 4. **Write-back:** a mailbox the bridge fills so the game can react: PokéNav INFORME and the Champion's line (done).
+5. **League planner:** the LLM plans the League's strategy against the player's profile on entry; the ROM AI applies it as bounded weights, with a rules fallback (done).

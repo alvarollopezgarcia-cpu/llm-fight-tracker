@@ -42,6 +42,7 @@ local MAILBOX_MAGIC = {{MAILBOX_MAGIC}}
 local MAILBOX_SLOTS = {
     report = {offset = {{MAILBOX_REPORT_OFFSET}}, size = {{MAILBOX_REPORT_SIZE}}},
     champion = {offset = {{MAILBOX_LINE_OFFSET}}, size = {{MAILBOX_LINE_SIZE}}},
+    directive = {offset = {{MAILBOX_DIRECTIVE_OFFSET}}, size = {{MAILBOX_DIRECTIVE_SIZE}}},  -- the League plan
 }
 
 local BRIDGE_HOST = "127.0.0.1"
@@ -324,7 +325,8 @@ local function onFrame()
         local mapGroup, mapNum = readLocation()
         if mapGroup ~= nil and (mapGroup ~= lastMapGroup or mapNum ~= lastMapNum) then
             lastMapGroup, lastMapNum = mapGroup, mapNum
-            emit({type = "map_change", mapGroup = mapGroup, mapNum = mapNum})
+            -- The profile too: the bridge plans the League from the save's current one on entry
+            emit({type = "map_change", mapGroup = mapGroup, mapNum = mapNum, profile = readProfileHex()})
         end
     end
 

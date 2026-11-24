@@ -159,16 +159,20 @@ def trends(battles, game_data, min_chances=TREND_MIN):
     return sorted(result, key=lambda t: -abs(t["late_rate"] - t["early_rate"]))
 
 
-def player_facts(store, game_data, min_samples=MIN_SAMPLES, recent=RECENT_BATTLES):
-    """The whole picture: record, saved profile tendencies, recent battles and trends."""
+def player_facts(store, game_data, min_samples=MIN_SAMPLES, recent=RECENT_BATTLES, profile_hex=None):
+    """The whole picture: record, saved profile tendencies, recent battles and trends.
+
+    profile_hex: the game's profile right now (e.g. read on entering the League); without it,
+    the profile after the last recorded battle is used.
+    """
     battles = store.battles()
     outcomes = {}
     for battle in battles:
         name = game_data.outcome_name(battle["outcome"] or 0)
         outcomes[name] = outcomes.get(name, 0) + 1
 
-    profile = None
-    for battle in reversed(battles):
+    profile = game_data.decode_profile(profile_hex) if profile_hex else None
+    for battle in reversed(battles if profile is None else []):
         if battle["profile_after"]:
             profile = game_data.decode_profile(battle["profile_after"])
             break
