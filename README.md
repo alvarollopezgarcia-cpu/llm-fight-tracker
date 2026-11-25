@@ -58,7 +58,7 @@ I built it for my [Pokémon Emerald ROM hack, EmeraldFF](https://github.com/alva
 
 About 2,900 lines of Python and Lua, 2,900 lines of C, and 1,500 lines of tests (Python and in-engine battle tests).
 
-## Running the tests
+## Running the tests 
 
 ```bash
 python -m unittest discover tests
